@@ -1,0 +1,48 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.25">
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.54">
+    <script>node {
+
+	notify(&apos;Started&apos;)
+
+	stage(&apos;Checkout&apos;) {
+		git &apos;https://github.com/tapaswivijay/jenkins.git&apos;
+	}
+	
+	def pkg_home = &quot;spring-boot-samples/spring-boot-sample-atmosphere&quot;
+
+	dir(pkg_home) {
+		stage(&apos;Build&apos;)	{
+			sh &apos;mvn clean package&apos;
+			notify(&apos;Build Success&apos;)
+		}
+		
+		stage(&apos;Archival&apos;) {
+			archiveArtifacts &apos;target/*.jar&apos;
+		}
+		
+		stage(&apos;Test Results&apos;) {
+			junit &apos;target/surefire-reports/*.xml&apos;
+		}
+
+		notify(&apos;Success&apos;)
+
+	}
+}
+def notify(status){
+    emailext (
+      to: &quot;tapaswivijay@gmail.com&quot;,
+      subject: &quot;${status}: Job &apos;${env.JOB_NAME} [${env.BUILD_NUMBER}]&apos;&quot;,
+      body: &quot;&quot;&quot;&lt;p&gt;${status}: Job &apos;${env.JOB_NAME} [${env.BUILD_NUMBER}]&apos;:&lt;/p&gt;
+        &lt;p&gt;Check console output at &lt;a href=&apos;${env.BUILD_URL}&apos;&gt;${env.JOB_NAME} 	[${env.BUILD_NUMBER}]&lt;/a&gt;&lt;/p&gt;&quot;&quot;&quot;,
+    	)
+ }</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

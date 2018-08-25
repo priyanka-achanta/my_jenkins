@@ -1,0 +1,20 @@
+Cloning the remote Git repository
+Cloning repository https://github.com/tapaswivijay/jenkins.git
+ > git init /root/.jenkins/workspace/myfirstpipeline # timeout=10
+Fetching upstream changes from https://github.com/tapaswivijay/jenkins.git
+ > git --version # timeout=10
+ > git fetch --tags --progress https://github.com/tapaswivijay/jenkins.git +refs/heads/*:refs/remotes/origin/*
+ > git config remote.origin.url https://github.com/tapaswivijay/jenkins.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://github.com/tapaswivijay/jenkins.git # timeout=10
+Fetching upstream changes from https://github.com/tapaswivijay/jenkins.git
+ > git fetch --tags --progress https://github.com/tapaswivijay/jenkins.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision d9812047fedcb2be0a441c449f95ac15869fb1a6 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f d9812047fedcb2be0a441c449f95ac15869fb1a6
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b master d9812047fedcb2be0a441c449f95ac15869fb1a6
+Commit message: "test"
+First time build. Skipping changelog.
